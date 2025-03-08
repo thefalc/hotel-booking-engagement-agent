@@ -1,6 +1,15 @@
 """
 Hotel Insights Agent
 
+This service powers a hotel insights agent that generates detailed Hotel Research Reports.
+
+Functionality:
+- Analyzes the alignment between a guest's preferences (from their Customer Research Report) and 
+  the current hotel's offerings.
+- Evaluates room types, amenities, and services to provide personalized recommendations.
+- Uses hotel reviews to assess whether past guest experiences match the current guest's expectations.
+- Identifies potential experience gaps and suggests enhancements to optimize guest satisfaction.
+
 API Endpoint:
 - `/hotel-insights-agent`: 
 """
@@ -161,11 +170,7 @@ async def customer_insights_agent(request: Request):
     if request.method == "POST":
         data = await request.json()
 
-        logger.info(data)
-
         for item in data:
-            logger.info(item)
-
             context = item.get('context', "")
 
             logger.info(f"Here is the context: {context}")
@@ -173,6 +178,3 @@ async def customer_insights_agent(request: Request):
             asyncio.create_task(start_agent_flow(context))
 
         return Response(content="Hotel Insights Agent Started", media_type="text/plain", status_code=200)
-    
-
-    # TODO: try GPT-4

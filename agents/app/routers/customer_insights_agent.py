@@ -1,13 +1,19 @@
 """
 Customer Insights Agent
 
+This service powers a customer insights agent that generates detailed Customer Research Reports.
+
+Functionality:
+- Analyzes guest data, including travel patterns, room preferences, and engagement history.
+- Generates insights to personalize marketing campaigns, offers, and recommendations.
+- Helps River Hotels optimize guest experiences by delivering timely, data-driven interactions.
+
 API Endpoint:
 - `/customer-insights-agent`: 
 """
 
 from fastapi import APIRouter, Response, Request
 from langchain_anthropic import ChatAnthropic
-from langchain_core.tools import tool
 from langgraph.prebuilt import create_react_agent
 from dotenv import load_dotenv
 import logging
@@ -16,7 +22,7 @@ import asyncio
 import re
 from ..utils.agent_tools import get_travel_history, get_hotel_room_preferences, get_amenities_and_requests
 from ..utils.publish_to_topic import produce
-from ..utils.constants import AGENT_OUTPUT_TOPIC, PRODUCT_DESCRIPTION
+from ..utils.constants import AGENT_OUTPUT_TOPIC
 
 # Load environment variables from .env file
 load_dotenv()
@@ -166,7 +172,7 @@ async def customer_insights_agent(request: Request):
         for item in data:
             context = item.get('context', {})
 
-            logger.info(f"Here is the context: {context}")
+            logger.info(f"Here is initial context: {context}")
 
             asyncio.create_task(start_agent_flow(context))
 

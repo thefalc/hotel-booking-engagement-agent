@@ -1,6 +1,15 @@
 """
 Content Creation Agent
 
+This service powers a content generation agent that personalizes guest engagement emails 
+for River Hotels, a global hospitality brand operating in over 40 countries. 
+
+Functionality:
+- Processes lead data and customer research reports to craft tailored marketing emails.
+- Generates compelling, conversion-focused messages based on guest preferences, past stays, 
+  and available hotel promotions.
+- Utilizes AI-driven personalization to optimize guest engagement and drive direct bookings.
+
 API Endpoint:
 - `POST /content-creation-agent`: Processes new lead data and triggers research workflows.
 
@@ -118,12 +127,7 @@ async def content_creation_agent(request: Request):
     print("content-creation-agent")
     if request.method == "POST":
         data = await request.json()
-
-        logger.info(data)
-
         for item in data:
-            logger.info(item)
-
             context = item.get('context', "")
 
             logger.info(f"Here is the context: {context}")
